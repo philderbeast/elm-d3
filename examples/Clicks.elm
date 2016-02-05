@@ -32,9 +32,9 @@ transform : Pos -> Model -> Model
 transform pos c =
   let incr m = m + 1 in
   case pos of
-    Left   -> { c | left   <- incr c.left }
-    Middle -> { c | middle <- incr c.middle }
-    Right  -> { c | right  <- incr c.right }
+    Left   -> { c | left   = incr c.left }
+    Middle -> { c | middle = incr c.middle }
+    Right  -> { c | right  = incr c.right }
 
 controller : Signal Model
 controller =

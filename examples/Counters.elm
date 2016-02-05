@@ -64,9 +64,9 @@ handler : Event -> Model -> Model
 handler e m = case e of
   Create      -> let next' = m.next + 1 in
                  { next = next', dict = Dict.insert next' 0 m.dict }
-  Increment i -> { m | dict <- increment i m.dict }
-  Decrement i -> { m | dict <- decrement i m.dict }
-  Remove    i -> { m | dict <- Dict.remove i m.dict }
+  Increment i -> { m | dict = increment i m.dict }
+  Decrement i -> { m | dict = decrement i m.dict }
+  Remove    i -> { m | dict = Dict.remove i m.dict }
 
 events : Stream Event
 events = stream ()

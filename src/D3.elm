@@ -61,6 +61,7 @@ import Graphics.Element exposing (Element)
 import Json.Encode exposing (Value)
 import String
 
+import Native.D3.D3
 import Native.D3.Render
 import Native.D3.Selection
 import Native.D3.Transition

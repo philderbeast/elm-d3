@@ -90,13 +90,13 @@ type alias Model = {
 --
 setStatus : Model -> Int -> Bool -> Model
 setStatus m i b =
-  { m | items <- imap (\(t, s) j -> (t, if j == i then b else s)) m.items }
+  { m | items = imap (\(t, s) j -> (t, if j == i then b else s)) m.items }
 
 -- Sets the description of the item at index `i` to the value `d`.
 --
 setDescription : Model -> Int -> String -> Model
 setDescription m i d =
-  { m | items <- imap (\(t, s) j -> (if j == i then d else t, s)) m.items }
+  { m | items = imap (\(t, s) j -> (if j == i then d else t, s)) m.items }
 
 -- Start editing the item at index `i`.
 --
@@ -107,7 +107,7 @@ startEdit m i =
       Nothing     -> Debug.crash "assert false"
       Just (x, _) -> x
   in
-  { m | editing <- Just (description, i) }
+  { m | editing = Just (description, i) }
 
 -- Change the description of the current edit item to the value `d`.
 --
@@ -115,7 +115,7 @@ changeEdit : Model -> String -> Model
 changeEdit m d =
   case m.editing of
     Nothing -> Debug.crash "trying to edit while not editing"
-    Just (_, i) -> { m | editing <- Just (d, i) }
+    Just (_, i) -> { m | editing = Just (d, i) }
 
 -- Complete editing by setting the description of the current edit item to the
 -- modified description, and returning the model to  non-edit state.
@@ -124,7 +124,7 @@ commitEdit : Model -> Model
 commitEdit m =
   case m.editing of
     Nothing -> Debug.crash "trying to finishing editing while not editing"
-    Just (t, i) -> let m' = setDescription m i t in { m' | editing <- Nothing }
+    Just (t, i) -> let m' = setDescription m i t in { m' | editing = Nothing }
 
 
 -------------------------------------------------------------------------------
@@ -168,16 +168,16 @@ type Event
 transform : Event -> Model -> Model
 transform e m =
   case e of
-    AddInput -> { m | input <- ""
-                    , items <- (m.input, False)::m.items }
-    ChangeInput i -> { m |  input <- i }
-    Filter      f -> { m | filter <- f }
-    Toggle  onoff -> { m |  items <- List.map (\(d,_) -> (d, onoff)) m.items }
-    Delete  index -> { m |  items <- ifilter (\_ j -> j /= index) m.items }
+    AddInput -> { m | input = ""
+                    , items = (m.input, False)::m.items }
+    ChangeInput i -> { m |  input = i }
+    Filter      f -> { m | filter = f }
+    Toggle  onoff -> { m |  items = List.map (\(d,_) -> (d, onoff)) m.items }
+    Delete  index -> { m |  items = ifilter (\_ j -> j /= index) m.items }
     Edit    index -> startEdit  m index
     ChangeEdit  d -> changeEdit m d
     CommitEdit    -> commitEdit m
-    CancelEdit    -> { m | editing <- Nothing }
+    CancelEdit    -> { m | editing = Nothing }
     Check   index -> setStatus m index True
     Uncheck index -> setStatus m index False
     Noop          -> m

@@ -24,7 +24,7 @@ svg ds ms =
 
 -- Move the mouse to the left to right to remove or add circles. Move the mouse
 -- up and down to change the brightness of the circles.
-circles : D3 (number, number) number
+circles : D3 (Int, Int) Int
 circles =
   selectAll "circle"
   |= (\(x, y) -> List.repeat (x // 50) y)
@@ -40,7 +40,7 @@ circles =
      |- exit
         |. remove
 
-color : number -> number -> String
+color : Int -> Int -> String
 color y i =
   let steelBlue = D3.Color.fromString "steelblue"
       magnitude = (2 * toFloat y / toFloat dims.height) ^ (toFloat i / 2)

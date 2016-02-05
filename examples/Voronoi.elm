@@ -35,7 +35,7 @@ import String
 import Time exposing (inMilliseconds, timestamp)
 
 import Graphics.Element exposing (Element)
-import Signal exposing ((<~), (~), constant)
+import Signal exposing (map, map2, constant)
 
 -- Type declaractions for records that represent dimensions and margins.
 --
@@ -104,21 +104,18 @@ translate x y = "translate(" ++ (toString x) ++ "," ++ (toString y) ++ ")"
 --
 genPoints : Int -> Generator (List D3.Voronoi.Point)
 genPoints n =
-  let points =
-    customGenerator <| \seed ->
-      let (x, seed') = generate (float 0 dims.width ) seed in
-      let (y, seed'') = generate (float 0 dims.height) seed' in
-      ({ x = x, y = y }, seed'')
-  in
-  list n points
+  list n  (Random.map (\(x, y) -> {x = x, y = 1}) (pair (float 0 dims.width) (float 0 dims.height)))
 
 genPoints' : Int -> Seed -> List D3.Voronoi.Point
-genPoints' n s = fst (generate (genPoints n) s)
+genPoints' n s =  fst (generate (genPoints n) s)
 
 -- Hoops to get a random seed.
 --
 seed : Signal Seed
-seed = (\(time, _) -> initialSeed (floor (inMilliseconds time))) <~ (timestamp (constant ()))
+seed =
+  Signal.map
+      (\(time, _) -> initialSeed (floor (inMilliseconds time)))
+      (timestamp (constant ()))
 
 vis dims margin =
   svg dims margin
@@ -128,7 +125,8 @@ vis dims margin =
 main : Signal Element
 main =
   let mouse (x, y) = { x = (toFloat x) - margin.left, y = (toFloat y) - margin.top }
-      randomPoints = genPoints' 100 <~ seed
-      points = (\m ps -> mouse m :: ps) <~ Mouse.position ~ randomPoints
+      randomPoints = Signal.map (genPoints' 100) seed
+      -- randomPoints = Signal.map (\(x, y) -> {x = x, y = y}) randomPair
+      points = Signal.map2 (\m ps -> mouse m :: ps) Mouse.position randomPoints
   in
-  render dims.width dims.height (vis dims margin) <~ points
+  Signal.map (render dims.width dims.height (vis dims margin)) points
