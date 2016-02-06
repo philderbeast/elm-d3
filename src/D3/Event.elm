@@ -47,7 +47,6 @@ module D3.Event
 import D3 exposing (..)
 import Native.D3.Event
 import Signal
-import String
 
 
 type Event e

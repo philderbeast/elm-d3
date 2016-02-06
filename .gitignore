@@ -1,7 +1,6 @@
 .*.sw[po]
 *.html
-build/
-cache/
+elm-stuff/
 node_modules/
 elm-d3.js
 elm-d3.runtime.js
