@@ -1,5 +1,4 @@
 .*.sw[po]
-*.html
 elm-stuff/
 node_modules/
 elm-d3.js

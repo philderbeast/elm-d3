@@ -4,7 +4,6 @@ import Development.Shake.FilePath
 import Development.Shake.Util
 import System.Console.GetOpt
 
-distDir = "__dist"
 flags = []
 opts = shakeOptions{shakeFiles="__build/", shakeVerbosity=Loud}
 
