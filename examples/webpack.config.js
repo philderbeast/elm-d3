@@ -42,6 +42,6 @@ module.exports = {
         new webpack.ResolverPlugin([
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("package.json", ["main"])
         ]),
-        new ExtractTextPlugin("styles.css")
+        new ExtractTextPlugin("[name]-styles.css")
     ]
 };
