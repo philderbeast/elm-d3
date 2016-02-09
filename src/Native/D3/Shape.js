@@ -19,7 +19,18 @@ Elm.Native.D3.Shape.make = function(elm) {
         return line(JS.fromList(data));
     }
 
+    function elm_arc(ir, or, sa, ea, data) {
+        var arc = d3.svg.arc()
+            .innerRadius(ir)
+            .outerRadius(or)
+            .startAngle(sa)
+            .endAngle(ea);
+
+        return arc(JS.fromList(data));
+    }
+
     return elm.Native.D3.Shape.values = {
         line: F4(elm_line)
+        arc: F5(elm_arc)
     };
 };

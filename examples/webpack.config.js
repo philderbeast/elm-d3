@@ -5,6 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: {
+        arcs: path.join(__dirname, 'arcs.js'),
         boxes: path.join(__dirname, 'boxes.js'),
         circles: path.join(__dirname, 'circles.js'),
         clicks: path.join(__dirname, 'clicks.js'),
@@ -32,6 +33,7 @@ module.exports = {
         noParse: [/.elm$/] 
     },
     plugins: [
+        new CommonsChunk('commons-arcs.js', ['arcs']),
         new CommonsChunk('commons-boxes.js', ['boxes']),
         new CommonsChunk('commons-circles.js', ['circles']),
         new CommonsChunk('commons-clicks.js', ['clicks']),
