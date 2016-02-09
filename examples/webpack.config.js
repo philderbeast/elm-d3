@@ -26,7 +26,8 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.html$/, exclude: /node_modules/, loader: 'file?name=[name].[ext]'},
-            { test: /\.elm$/, exclude: [/elm-stuff/, /node_modules/], loader: 'elm-webpack' }
+            { test: /\.elm$/, exclude: [/elm-stuff/, /node_modules/], loader: 'elm-webpack' },
+            { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!less') }
         ],
         noParse: [/.elm$/] 
     },
@@ -40,6 +41,7 @@ module.exports = {
         new CommonsChunk('commons-voronoi.js', ['voronoi']),
         new webpack.ResolverPlugin([
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("package.json", ["main"])
-        ])
+        ]),
+        new ExtractTextPlugin("styles.css")
     ]
 };
