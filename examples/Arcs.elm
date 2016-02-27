@@ -4,9 +4,9 @@ import D3 exposing (..)
 import Graphics.Element exposing (Element)
 import Mouse
 import D3.Shape exposing
-    ( RadiusAccessor
-    , AngleAccessor
+    ( AccFloat
     , PathGenerator
+    , ArcProps
     , arc 
     )
 
@@ -53,7 +53,12 @@ main =
 
         g : PathGenerator (Float, Float)
         g =
-            D3.Shape.arc (fst >> ((+) 2)) fst snd (snd >> ((+) pi))
+            D3.Shape.arc
+                { outerRadius = Just (fst >> ((+) 2))
+                , innerRadius = Just fst
+                , startAngle = Just snd
+                , endAngle = Just (snd >> ((+) pi))
+                }
 
         ps : Signal (List String)
         ps =

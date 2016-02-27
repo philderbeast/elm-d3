@@ -1,8 +1,7 @@
 module D3.Shape
-    ( XAccessor
-    , YAccessor
-    , RadiusAccessor
-    , AngleAccessor
+    ( AccFloat
+    , LineProps
+    , ArcProps
     , PathGenerator
     , line
     , arc
@@ -13,28 +12,40 @@ module D3.Shape
 @docs line, arc 
 
 # Datum property accessors.
-@docs XAccessor, YAccessor, RadiusAccessor, AngleAccessor
+@docs AccFloat
+
+# Generator properties
+@docs LineProps ArcProps
 
 # Path generator
 @docs PathGenerator
 -}
 import Native.D3.Shape
 
-{-| Get x values. -}
-type alias XAccessor a = a -> Float
-{-| Get y values. -}
-type alias YAccessor a = a -> Float
-{-| Get radii. -}
-type alias RadiusAccessor a = a -> Float
-{-| Get angles. -}
-type alias AngleAccessor a = a -> Float
+{-| Get a float value. -}
+type alias AccFloat a = a -> Float
 {-| Generate a path as a string, for use as the /path@d attribute. -}
 type alias PathGenerator a = a -> String
 
-{-| Generate a path for an line. -}
-line : XAccessor a -> YAccessor a -> String -> PathGenerator b
+{-| The input properties for a line. -}
+type alias LineProps a =
+    { x : Maybe (AccFloat a)
+    , y : Maybe (AccFloat a)
+    , interpolate : Maybe String
+    }
+    
+{-| Generate a path for a line. -}
+line : LineProps a -> PathGenerator b
 line = Native.D3.Shape.line
 
+{-| The input properties for an arc. -}
+type alias ArcProps a =
+    { startAngle : Maybe (AccFloat a)
+    , endAngle : Maybe (AccFloat a)
+    , innerRadius : Maybe (AccFloat a)
+    , outerRadius : Maybe (AccFloat a)
+    }
+
 {-| Generate a path for an arc. -}
-arc : RadiusAccessor a -> RadiusAccessor a -> AngleAccessor a -> AngleAccessor a -> PathGenerator b
+arc : ArcProps a -> PathGenerator b
 arc = Native.D3.Shape.arc

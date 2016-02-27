@@ -6,4 +6,4 @@ var d3 = require('d3');
 var Elm = require('./arcs');
 
 var node = document.getElementById('content-arcs');
-var app = Elm.embed(Elm.arcs, node);
+var app = Elm.embed(Elm.Arcs, node);

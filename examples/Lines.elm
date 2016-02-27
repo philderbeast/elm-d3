@@ -4,9 +4,9 @@ import D3 exposing (..)
 import Graphics.Element exposing (Element)
 import Mouse
 import D3.Shape exposing
-    ( XAccessor
-    , YAccessor
+    ( AccFloat
     , PathGenerator
+    , LineProps
     , line
     )
 
@@ -53,7 +53,11 @@ main =
 
         g : PathGenerator (List (Float, Float))
         g =
-            D3.Shape.line fst snd "step-after"
+            D3.Shape.line
+                { x = Just fst
+                , y = Just snd
+                , interpolate = Just "step-after"
+                }
 
         ps : Signal (List String)
         ps =
