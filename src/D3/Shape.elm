@@ -1,15 +1,32 @@
 module D3.Shape
-    ( XAccessor
-    , YAccessor
+    ( AccFloat
+    , LineProps
+    , ArcProps
     , PathGenerator
     , line
+    , arc
     ) where
 
 import Native.D3.Shape
 
-type alias XAccessor a = a -> Float
-type alias YAccessor a = a -> Float
+type alias AccFloat a = a -> Float
 type alias PathGenerator a = a -> String
 
-line : XAccessor a -> YAccessor a -> String -> PathGenerator b
+type alias LineProps a =
+    { x : Maybe (AccFloat a)
+    , y : Maybe (AccFloat a)
+    , interpolate : Maybe String
+    }
+
+line : LineProps a -> PathGenerator b
 line = Native.D3.Shape.line
+
+type alias ArcProps a =
+    { startAngle : Maybe (AccFloat a)
+    , endAngle : Maybe (AccFloat a)
+    , innerRadius : Maybe (AccFloat a)
+    , outerRadius : Maybe (AccFloat a)
+    }
+
+arc : ArcProps a -> PathGenerator b
+arc = Native.D3.Shape.arc
